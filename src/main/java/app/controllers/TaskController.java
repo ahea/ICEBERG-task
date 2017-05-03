@@ -10,11 +10,7 @@ import app.models.User;
 import app.services.TaskService;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +18,7 @@ import java.util.List;
  * Created by aleksei on 03.05.17.
  */
 
-@Controller
+@RestController
 public class TaskController {
 
     private UserService userService;
@@ -38,21 +34,21 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @RequestMapping(value = "/tasks?name={name}&password={password}&status={status}",
+    @RequestMapping(value = "/tasks/name={name}&password={password}&status={status}",
             method = RequestMethod.GET)
-    public List getTasks(@RequestParam String name,
-                         @RequestParam String password,
-                         @RequestParam Integer status)
+    public List getTasks(@PathVariable String name,
+                         @PathVariable String password,
+                         @PathVariable Integer status)
             throws WrongPasswordException, UserNotFoundException, WrongStatusException{
         User user = userService.getUserByCredentials(name, password);
         List list = taskService.getTasksWithStatus(user, status);
         return list;
     }
 
-    @RequestMapping(value = "/tasks/new?name={name}&password={password}",
+    @RequestMapping(value = "/tasks/new/name={name}&password={password}",
             method = RequestMethod.POST)
-    public Task saveTask(@RequestParam String name,
-                         @RequestParam String password,
+    public Task saveTask(@PathVariable String name,
+                         @PathVariable String password,
                          @RequestBody Task task)
     throws WrongPasswordException {
         User user;
@@ -62,14 +58,16 @@ public class TaskController {
             user = userService.createUserWithCredentials(name, password);
         }
         task.setOwner(user);
-        return taskService.saveTask(task);
+        task = taskService.saveTask(task);
+        task.setOwner(null);
+        return task;
     }
 
-    @RequestMapping(value = "/tasks/delete?name={name}&password={password}&task={id}",
+    @RequestMapping(value = "/tasks/delete/name={name}&password={password}&task={id}",
             method = RequestMethod.POST)
-    public void deleteTask(@RequestParam String name,
-                           @RequestParam String password,
-                           @RequestParam Integer id)
+    public void deleteTask(@PathVariable String name,
+                           @PathVariable String password,
+                           @PathVariable Integer id)
     throws UserNotFoundException, WrongPasswordException, TaskNotFoundException{
         User user = userService.getUserByCredentials(name, password);
         taskService.deleteTaskById(user, id);

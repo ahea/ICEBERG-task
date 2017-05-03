@@ -9,7 +9,6 @@ import app.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,8 +35,10 @@ public class TaskServiceImpl implements TaskService{
         TaskStatus taskStatus = TaskStatus.values()[status];
         LinkedList<Task> result = new LinkedList<>();
         for (Task task : user.getTasks()){
-            if (task.getStatus() == taskStatus)
+            if (task.getStatus() == taskStatus) {
+                task.setOwner(null);
                 result.add(task);
+            }
         }
         return result;
     }

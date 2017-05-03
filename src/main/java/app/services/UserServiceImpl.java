@@ -7,6 +7,7 @@ import app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 /**
  * Created by aleksei on 03.05.17.
  */
