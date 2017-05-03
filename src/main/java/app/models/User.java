@@ -19,7 +19,6 @@ public class User {
 
     @Column(unique = true)
     @NotNull
-    @Size(min = 3, max = 20)
     private String name;
 
     @NotNull
