@@ -1,4 +1,4 @@
-package app.models.repositories;
+package app.repositories;
 
 import app.models.Task;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -22,6 +22,7 @@ public class Task {
 
     private String description;
 
+    @Enumerated(EnumType.ORDINAL)
     private TaskStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
