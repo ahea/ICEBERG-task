@@ -1,5 +1,6 @@
 package app.services;
 
+import app.exceptions.TaskNotFoundException;
 import app.exceptions.WrongStatusException;
 import app.models.Task;
 import app.models.User;
@@ -45,4 +46,13 @@ public class TaskServiceImpl implements TaskService{
     public Task saveTask(Task task){
         return taskRepository.save(task);
     }
+
+    @Override
+    public void deleteTaskById(User user, Integer id) throws TaskNotFoundException{
+        Task task = taskRepository.findOne(id);
+        if (task == null) throw new TaskNotFoundException("Task with such id was not found");
+        if (!task.getOwner().equals(user)) throw new TaskNotFoundException("Permission for task deletion denied");
+        taskRepository.delete(task);
+    }
+
 }

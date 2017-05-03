@@ -1,5 +1,6 @@
 package app.services;
 
+import app.exceptions.TaskNotFoundException;
 import app.exceptions.WrongStatusException;
 import app.models.Task;
 import app.models.User;
@@ -15,5 +16,8 @@ public interface TaskService {
             throws WrongStatusException;
 
     Task saveTask(Task task);
+
+    void deleteTaskById(User user, Integer id)
+            throws TaskNotFoundException;
 
 }

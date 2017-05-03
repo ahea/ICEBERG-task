@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.exceptions.TaskNotFoundException;
 import app.exceptions.UserNotFoundException;
 import app.exceptions.WrongPasswordException;
 import app.exceptions.WrongStatusException;
@@ -33,6 +34,13 @@ public class ErrorHandlingController {
     public ResponseEntity<ServerErrors> handleWrongStatusException(
             WrongStatusException e){
         return new ResponseEntity<>(ServerErrors.WRONG_STATUS,
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ServerErrors> handleTaskNotFoundException(
+            TaskNotFoundException e){
+        return new ResponseEntity<>(ServerErrors.TASK_NOT_FOUND,
                 HttpStatus.BAD_REQUEST);
     }
 

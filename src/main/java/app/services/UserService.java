@@ -1,5 +1,6 @@
 package app.services;
 
+import app.exceptions.TaskNotFoundException;
 import app.exceptions.UserNotFoundException;
 import app.exceptions.WrongPasswordException;
 import app.models.User;

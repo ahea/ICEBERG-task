@@ -5,6 +5,7 @@ package app.models.enums;
  */
 public enum ServerErrors {
     USER_NOT_FOUND,
+    TASK_NOT_FOUND,
     WRONG_PASSWORD,
     WRONG_STATUS
 }

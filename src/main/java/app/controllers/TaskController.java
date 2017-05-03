@@ -1,6 +1,7 @@
 package app.controllers;
 
 
+import app.exceptions.TaskNotFoundException;
 import app.exceptions.UserNotFoundException;
 import app.exceptions.WrongPasswordException;
 import app.exceptions.WrongStatusException;
@@ -62,6 +63,16 @@ public class TaskController {
         }
         task.setOwner(user);
         return taskService.saveTask(task);
+    }
+
+    @RequestMapping(value = "/tasks/delete?name={name}&password={password}&task={id}",
+            method = RequestMethod.POST)
+    public void deleteTask(@RequestParam String name,
+                           @RequestParam String password,
+                           @RequestParam Integer id)
+    throws UserNotFoundException, WrongPasswordException, TaskNotFoundException{
+        User user = userService.getUserByCredentials(name, password);
+        taskService.deleteTaskById(user, id);
     }
 
 }
